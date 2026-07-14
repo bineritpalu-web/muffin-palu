@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard | Muffin Pisang Coklat Palu</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav-bar">
+        <a class="brand" href="index.html" aria-label="Kembali ke halaman utama">
+          <span class="brand-mark">M</span>
+          <span>
+            <strong>ADMIN DASHBOARD</strong>
+            <small>Muffin Palu</small>
+          </span>
+        </a>
+        <nav class="site-nav" aria-label="Navigasi admin">
+          <a href="index.html">Halaman pemesanan</a>
+          <a href="admin.html">Dashboard</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="section">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Area admin</p>
+          <h2>Kelola stok, omzet, struk, dan laporan keuangan.</h2>
+          <p>Dashboard khusus untuk pemilik atau admin toko.</p>
+        </div>
+
+        <script>
+          function adminLoginDirect() {
+            const usernameInput = document.getElementById('loginUsername');
+            const passwordInput = document.getElementById('loginPassword');
+            const loginShell = document.getElementById('loginShell');
+            const adminShell = document.getElementById('adminShell');
+            const loginMessage = document.getElementById('loginMessage');
+
+            if (!usernameInput || !passwordInput || !loginShell || !adminShell) return;
+
+            const username = (usernameInput.value || '').trim();
+            const password = (passwordInput.value || '').trim();
+
+            if (username === 'admin' && password === 'muffinpalu2026') {
+              localStorage.setItem('muffin-admin-auth', 'true');
+              loginShell.classList.add('hidden');
+              adminShell.classList.remove('hidden');
+              if (loginMessage) {
+                loginMessage.textContent = 'Login berhasil.';
+              }
+            } else if (loginMessage) {
+              loginMessage.textContent = 'Username atau password salah.';
+            }
+          }
+
+          function adminLoginSubmit(event) {
+            event.preventDefault();
+            adminLoginDirect();
+          }
+        </script>
+
+        <div class="auth-shell" id="loginShell">
+          <div class="auth-card">
+            <div class="auth-icon">🍰</div>
+            <p class="eyebrow">Akses admin</p>
+            <h3>Login Admin</h3>
+            <p class="auth-subtitle">Masukkan username dan password untuk membuka dashboard operasional toko.</p>
+            <form id="adminLoginForm" class="auth-form" onsubmit="adminLoginSubmit(event)">
+              <label>
+                Username
+                <input type="text" id="loginUsername" placeholder="admin" required />
+              </label>
+              <label>
+                Password
+                <input type="password" id="loginPassword" placeholder="********" required />
+              </label>
+              <button class="button primary" id="loginSubmitButton" type="button" onclick="adminLoginDirect()">Masuk</button>
+            </form>
+            <p id="loginMessage" class="dashboard-caption"></p>
+          </div>
+        </div>
+
+        <div id="adminShell" class="hidden">
+          <div class="dashboard-grid">
+          <article class="dashboard-card">
+            <div class="dashboard-card-head">
+              <div>
+                <p class="eyebrow">Stok ready</p>
+                <h3 id="stockReadyValue">0 pcs</h3>
+              </div>
+              <span class="status-pill" id="stockStatus">Aman</span>
+            </div>
+            <div class="progress-track" aria-hidden="true">
+              <div class="progress-bar" id="stockProgressBar"></div>
+            </div>
+            <p class="dashboard-caption">Target stok: <strong id="stockTargetValue">150 pcs</strong></p>
+            <form class="dashboard-form" id="stockForm">
+              <label>
+                Tambah / kurangi stok
+                <input type="number" id="stockDelta" value="10" />
+              </label>
+              <label>
+                Target stok
+                <input type="number" id="stockTargetInput" value="150" />
+              </label>
+              <button class="button primary" type="submit">Update stok</button>
+            </form>
+            <div class="dashboard-actions-inline">
+              <button class="button secondary" id="resetStockButton" type="button">Reset stok</button>
+            </div>
+          </article>
+
+          <article class="dashboard-card">
+            <div class="dashboard-card-head">
+              <div>
+                <p class="eyebrow">Omzet</p>
+                <h3 id="omzetValue">Rp 0</h3>
+              </div>
+            </div>
+            <div class="metric-row">
+              <div>
+                <span class="metric-label">Penjualan hari ini</span>
+                <strong id="dailySalesValue">Rp 0</strong>
+              </div>
+            </div>
+            <form class="dashboard-form" id="saleForm">
+              <label>
+                Nominal penjualan
+                <input type="number" id="saleAmount" min="0" placeholder="Contoh: 250000" required />
+              </label>
+              <label>
+                Nama pelanggan
+                <input type="text" id="saleCustomer" placeholder="Contoh: Bapak Rudi" />
+              </label>
+              <label>
+                Catatan
+                <input type="text" id="saleNote" placeholder="Contoh: 10 box" />
+              </label>
+              <button class="button primary" type="submit">Catat penjualan</button>
+            </form>
+          </article>
+
+          <article class="dashboard-card wide-card">
+            <div class="dashboard-card-head">
+              <div>
+                <p class="eyebrow">Struk terbaru</p>
+                <h3>Riwayat penjualan</h3>
+              </div>
+            </div>
+            <div class="dashboard-actions-inline">
+              <button class="button secondary" id="resetSalesButton" type="button">Reset riwayat penjualan</button>
+            </div>
+            <div class="dashboard-list" id="receiptList"></div>
+          </article>
+
+          <article class="dashboard-card wide-card">
+            <div class="dashboard-card-head">
+              <div>
+                <p class="eyebrow">Laporan keuangan</p>
+                <h3>Ringkasan laba</h3>
+              </div>
+            </div>
+            <div class="summary-grid">
+              <div class="summary-box">
+                <span class="metric-label">Pemasukan</span>
+                <strong id="incomeValue">Rp 0</strong>
+              </div>
+              <div class="summary-box">
+                <span class="metric-label">Pengeluaran</span>
+                <strong id="expenseValue">Rp 0</strong>
+              </div>
+              <div class="summary-box">
+                <span class="metric-label">Laba bersih</span>
+                <strong id="profitValue">Rp 0</strong>
+              </div>
+            </div>
+            <form class="dashboard-form" id="expenseForm">
+              <label>
+                Nominal pengeluaran
+                <input type="number" id="expenseAmount" min="0" placeholder="Contoh: 95000" required />
+              </label>
+              <label>
+                Keterangan
+                <input type="text" id="expenseNote" placeholder="Contoh: Beli coklat" />
+              </label>
+              <button class="button secondary" type="submit">Catat pengeluaran</button>
+            </form>
+            <div class="dashboard-list" id="financeList"></div>
+          </article>
+        </div>
+
+          <div class="dashboard-message" id="dashboardMessage" aria-live="polite"></div>
+          <div class="dashboard-actions">
+            <button class="button secondary" id="adminLogoutButton" type="button">Logout</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('adminLoginForm');
+        const button = document.getElementById('loginSubmitButton');
+        const usernameInput = document.getElementById('loginUsername');
+        const passwordInput = document.getElementById('loginPassword');
+        const loginShell = document.getElementById('loginShell');
+        const adminShell = document.getElementById('adminShell');
+        const loginMessage = document.getElementById('loginMessage');
+
+        const showDashboard = () => {
+          loginShell?.classList.add('hidden');
+          adminShell?.classList.remove('hidden');
+        };
+
+        const handleLogin = (event) => {
+          if (event) {
+            event.preventDefault();
+          }
+
+          const username = (usernameInput?.value || '').trim();
+          const password = (passwordInput?.value || '').trim();
+
+          if (username === 'admin' && password === 'muffinpalu2026') {
+            localStorage.setItem('muffin-admin-auth', 'true');
+            showDashboard();
+            if (loginMessage) {
+              loginMessage.textContent = 'Login berhasil.';
+            }
+          } else if (loginMessage) {
+            loginMessage.textContent = 'Username atau password salah.';
+          }
+        };
+
+        form?.addEventListener('submit', handleLogin);
+        button?.addEventListener('click', handleLogin);
+
+        if (localStorage.getItem('muffin-admin-auth') === 'true') {
+          showDashboard();
+        }
+      });
+    </script>
+    <script src="script.js?v=20260714"></script>
+  </body>
+</html>

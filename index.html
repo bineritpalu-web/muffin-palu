@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MUFFIN PISANG COKLAT PALU | Muffin Pisang Coklat Segar</title>
+    <meta
+      name="description"
+      content="Nikmati muffin pisang coklat segar di Palu. Dibuat dari pisang matang, coklat premium, dan tanpa pengawet buatan."
+    />
+    <meta
+      name="keywords"
+      content="Muffin Pisang Coklat Palu, Muffin Pisang Coklat Palu, Muffin Palu, Bakery Palu, Muffin Rumahan, Bakery Segar Indonesia"
+    />
+    <meta name="theme-color" content="#4E342E" />
+    <meta property="og:title" content="MUFFIN PISANG COKLAT PALU" />
+    <meta
+      property="og:description"
+      content="Muffin pisang coklat lembut, manis, dan dibuat segar setiap hari di Palu."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://images.unsplash.com/photo-1483695028939-5bb13f8648b0?auto=format&fit=crop&w=1200&q=80" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="canonical" href="https://example.com/" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&family=Poppins:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav-bar">
+        <a class="brand" href="#home" aria-label="MUFFIN PISANG COKLAT PALU home">
+          <span class="brand-mark">M</span>
+          <span>
+            <strong>MUFFIN PISANG COKLAT</strong>
+            <small>Palu</small>
+          </span>
+        </a>
+        <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+        <nav class="site-nav" aria-label="Navigasi utama">
+          <a href="#home">Beranda</a>
+          <a href="#products">Produk</a>
+          <a href="#gallery">Galeri</a>
+          <a href="#reviews">Ulasan</a>
+          <a href="#contact">Kontak</a>
+        </nav>
+        <div class="nav-actions">
+          <button class="icon-btn" id="searchToggle" aria-label="Cari">
+            <span>🔍</span>
+          </button>
+          <button class="icon-btn cart-btn" id="cartToggle" aria-label="Keranjang belanja">
+            <span>🛒</span>
+            <span class="cart-count" id="cartCount">0</span>
+          </button>
+          <button class="icon-btn" id="themeToggle" aria-label="Alihkan mode gelap">🌙</button>
+          <a class="button whatsapp-nav" href="https://wa.me/6282259107121?text=Halo%20Muffin%20Pisang%20Coklat%20Palu%2C%20saya%20ingin%20memesan%20muffin." target="_blank" rel="noreferrer">WhatsApp</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="search-modal" id="searchModal" aria-hidden="true">
+      <div class="search-panel">
+        <button class="close-modal" id="closeSearch" aria-label="Tutup pencarian">×</button>
+        <h3>Cari produk kami</h3>
+        <label class="sr-only" for="siteSearch">Cari</label>
+        <input id="siteSearch" type="search" placeholder="Cari muffin, bahan, atau pesanan..." />
+        <div class="search-hints">
+          <span>Muffin Segar</span>
+          <span>Coklat</span>
+          <span>Box Kado</span>
+        </div>
+      </div>
+    </div>
+
+    <aside class="cart-panel" id="cartPanel" aria-hidden="true">
+      <div class="cart-panel-head">
+        <h3>Pesanan Anda</h3>
+        <button class="close-modal" id="closeCart" aria-label="Tutup keranjang">×</button>
+      </div>
+      <p class="cart-empty">Keranjang Anda siap untuk pesanan bakery hangat.</p>
+      <div class="cart-items"></div>
+      <a id="cartWhatsappButton" class="button full-width" href="https://wa.me/6282259107121" target="_blank" rel="noreferrer">Pesan via WhatsApp</a>
+    </aside>
+
+    <main id="home">
+      <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="container hero-content">
+          <p class="eyebrow">Dipanggang segar setiap hari • Dibuat dengan cinta</p>
+          <h1>MUFFIN PISANG COKLAT</h1>
+          <p class="hero-subtitle">Lembut, Manis & Tak Tertahankan</p>
+          <p class="hero-description">
+            Dibuat dari pisang matang dan coklat premium, muffin kami yang baru dipanggang lembut, moist, dan cocok untuk sarapan, santai kopi, camilan, atau hadiah yang penuh perhatian.
+          </p>
+          <div class="hero-buttons">
+            <a class="button primary" href="#contact">Pesan Sekarang</a>
+            <a class="button secondary" href="#products">Lihat Menu</a>
+          </div>
+          <div class="hero-badges">
+            <span>🍌 Pisang Matang</span>
+            <span>🍫 Coklat Premium</span>
+            <span>🧁 Lembut & Moist</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section about" id="about">
+        <div class="container grid-2">
+          <div>
+            <p class="eyebrow">Tentang bakery kami</p>
+            <h2>Muffin buatan tangan yang merayakan rasa hangat dan bahan premium.</h2>
+            <p>
+              Muffin Pisang Coklat Palu mengkhususkan diri pada muffin pisang coklat buatan tangan yang dibuat dari pisang matang pilihan dan coklat premium. Setiap muffin dipanggang segar untuk menghasilkan tekstur lembut, rasa kaya, dan aroma yang tak terlupakan.
+            </p>
+            <p>
+              Baik dinikmati bersama kopi atau dibagikan sebagai hadiah, setiap gigitan dibuat dengan penuh kasih, bahan berkualitas, dan sentuhan artisan yang hangat.
+            </p>
+            <a class="text-link" href="#products">Temukan muffin signature kami</a>
+          </div>
+          <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=900&q=80" alt="Muffin hangat di atas meja bakery" loading="lazy" />
+        </div>
+      </section>
+
+      <section class="section products" id="products">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Produk unggulan</p>
+            <h2>Muffin Pisang Coklat Signature</h2>
+            <p>Kaya aroma, lembut, dan dipanggang dengan sempurna.</p>
+          </div>
+          <div class="product-card">
+            <div class="product-media">
+              <img src="assets/hero-banner.jpeg" alt="Muffin pisang coklat dengan coklat meleleh" loading="lazy" />
+            </div>
+            <div class="product-content">
+              <div class="price-row">
+                <span class="badge">Best Seller</span>
+                <span class="price">Rp 5.000 / pcs</span>
+              </div>
+              <h3>Muffin Pisang Coklat</h3>
+              <p>
+                Tekstur crumb pisang yang lembut, coklat premium yang kaya, dan sentuhan rumahan yang terasa seperti suguhan kafe hangat di rumah.
+              </p>
+              <ul class="feature-list">
+                <li>🍌 Pisang matang segar</li>
+                <li>🍫 Coklat premium</li>
+                <li>🧁 Tekstur lembut & moist</li>
+                <li>❤️ Resep rumahan</li>
+                <li>🌿 Tanpa pengawet buatan</li>
+              </ul>
+              <div class="product-meta">
+                <div>
+                  <h4>Cocok untuk</h4>
+                  <p>Sarapan • Pendamping kopi • Camilan sore • Hadiah</p>
+                </div>
+                <div class="quantity-selector">
+                  <label for="quantity">Jumlah</label>
+                  <div class="quantity-control">
+                    <button type="button" class="qty-btn" data-action="decrease" aria-label="Kurangi jumlah">−</button>
+                    <input type="number" id="quantity" min="1" value="1" />
+                    <button type="button" class="qty-btn" data-action="increase" aria-label="Tambah jumlah">+</button>
+                  </div>
+                </div>
+                <div class="stock-summary">
+                  <p>Stok siap: <strong id="orderStockReady">0 pcs</strong></p>
+                </div>
+              </div>
+              <div class="product-actions">
+                <button class="button primary add-to-cart" data-name="Muffin Pisang Coklat" data-price="5000">Tambah ke Keranjang</button>
+                <a id="whatsappOrderButton" class="button secondary" href="https://wa.me/6282259107121" target="_blank" rel="noreferrer">Pesan via WhatsApp</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section benefits">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Kenapa memilih kami</p>
+            <h2>Dibuat untuk kenyamanan, dipanggang dengan penuh perhatian.</h2>
+          </div>
+          <div class="card-grid">
+            <article class="info-card"><h3>🍌 Pisang Segar</h3><p>Buah matang yang manis alami di setiap gigitan.</p></article>
+            <article class="info-card"><h3>🍫 Coklat Premium</h3><p>Rasa kakao yang kaya dan meleleh dalam kenikmatan.</p></article>
+            <article class="info-card"><h3>🚫 Tanpa Pengawet Buatan</h3><p>Bahan sederhana dan jujur dengan karakter bakery yang nyata.</p></article>
+            <article class="info-card"><h3>🌾 Bahan Pilihan</h3><p>Tepung, mentega, susu, dan rempah yang dipilih dengan teliti.</p></article>
+            <article class="info-card"><h3>🧁 Dibuat Tangan Setiap Hari</h3><p>Dipanggang segar setiap hari untuk rasa dan tekstur yang hangat.</p></article>
+            <article class="info-card"><h3>☕ Pas dengan Kopi</h3><p>Pasangan yang tak tertolak untuk pagi hari dan istirahat.</p></article>
+            <article class="info-card"><h3>🎁 Cocok untuk Hadiah</h3><p>Indah, penuh perhatian, dan siap dibagikan.</p></article>
+            <article class="info-card"><h3>❤️ Disukai Keluarga</h3><p>Camilan yang pas untuk meja sarapan, berkumpul, dan santai.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section highlights">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Keunggulan produk</p>
+            <h2>Setiap muffin menghadirkan kenyamanan dan rasa premium.</h2>
+          </div>
+          <div class="benefit-list">
+            <div>✔ Tekstur Lembut & Moist</div>
+            <div>✔ Rasa Coklat yang Kaya</div>
+            <div>✔ Pisang Manis Alami</div>
+            <div>✔ Bahan Berkualitas Premium</div>
+            <div>✔ Dipanggang Segar Setiap Hari</div>
+            <div>✔ Camilan Pas Kapan Saja</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section gallery-section" id="gallery">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Galeri</p>
+            <h2>Moment hangat, tekstur lembut, dan kenikmatan coklat.</h2>
+          </div>
+          <div class="gallery-grid">
+            <figure class="gallery-item tall"><img src="https://images.unsplash.com/photo-1517433670267-08bbd4be890f?auto=format&fit=crop&w=900&q=80" alt="Fresh muffins on a wooden tray" loading="lazy" /></figure>
+            <figure class="gallery-item"><img src="https://images.unsplash.com/photo-1499638673689-79a0b5115d87?auto=format&fit=crop&w=900&q=80" alt="Chocolate chips and banana slices" loading="lazy" /></figure>
+            <figure class="gallery-item"><img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=900&q=80" alt="Ripe bananas and baking ingredients" loading="lazy" /></figure>
+            <figure class="gallery-item wide"><img src="https://images.unsplash.com/photo-1483695028939-5bb13f8648b0?auto=format&fit=crop&w=1200&q=80" alt="Bakery kitchen with freshly baked pastries" loading="lazy" /></figure>
+            <figure class="gallery-item"><img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=900&q=80" alt="Gift packaging for bakery treats" loading="lazy" /></figure>
+            <figure class="gallery-item"><img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=80" alt="Customer enjoying muffin with coffee" loading="lazy" /></figure>
+            <figure class="gallery-item"><img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=900&q=80" alt="Warm bakery lighting and baked goods" loading="lazy" /></figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="section testimonials" id="reviews">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Ulasan pelanggan</p>
+            <h2>Apa kata mereka tentang muffin kami.</h2>
+          </div>
+          <div class="testimonial-carousel">
+            <button class="carousel-control prev" aria-label="Previous review">←</button>
+            <div class="testimonial-track">
+              <article class="testimonial active">
+                <p class="stars">★★★★★</p>
+                <p>“Muffinnya lembut sekali dan penuh coklat di setiap gigitan.”</p>
+                <strong>— Nia, Palu</strong>
+              </article>
+              <article class="testimonial">
+                <p class="stars">★★★★★</p>
+                <p>“Kombinasi pisang matang dan coklat premium sungguh lezat.”</p>
+                <strong>— Fikri, Palu</strong>
+              </article>
+              <article class="testimonial">
+                <p class="stars">★★★★★</p>
+                <p>“Sangat pas dengan kopi dan cocok jadi hadiah untuk keluarga dan teman.”</p>
+                <strong>— Della, Palu</strong>
+              </article>
+            </div>
+            <button class="carousel-control next" aria-label="Next review">→</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section ingredients">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Bahan-bahan</p>
+            <h2>Bahan sederhana namun premium yang menciptakan muffin istimewa.</h2>
+          </div>
+          <div class="card-grid ingredients-grid">
+            <article class="info-card ingredient-card"><h3>🍌 Pisang Matang</h3><p>Buah alami yang manis dan menciptakan tekstur crumb paling lembut.</p><span class="quality-badge">Segar</span></article>
+            <article class="info-card ingredient-card"><h3>🍫 Coklat Premium</h3><p>Rasa kakao kaya untuk hasil akhir yang mewah dan lumer.</p><span class="quality-badge">Premium</span></article>
+            <article class="info-card ingredient-card"><h3>🥚 Telur Segar</h3><p>Memberi struktur dan tekstur yang lembut serta fluffy.</p><span class="quality-badge">Terpilih</span></article>
+            <article class="info-card ingredient-card"><h3>🥛 Susu Segar</h3><p>Membawa kelembutan dan rasa bakery yang creamy.</p><span class="quality-badge">Murni</span></article>
+            <article class="info-card ingredient-card"><h3>🧈 Mentega</h3><p>Memperkaya rasa dan menciptakan crumb yang kaya dan lembut.</p><span class="quality-badge">Lembut</span></article>
+            <article class="info-card ingredient-card"><h3>🌾 Tepung Premium</h3><p>Dipilih untuk hasil gigitan yang seimbang dan lembut.</p><span class="quality-badge">Halus</span></article>
+            <article class="info-card ingredient-card"><h3>🧂 Bahan Kue Berkualitas</h3><p>Rempah dan bahan pengembang yang seimbang untuk konsistensi sempurna.</p><span class="quality-badge">Dipilih teliti</span></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section packaging">
+        <div class="container grid-2">
+          <div>
+            <p class="eyebrow">Kemasan</p>
+            <h2>Kemasan cantik untuk hidangan yang terasa istimewa.</h2>
+            <p>Dari box kado hingga cup kertas ramah lingkungan, kemasan kami dirancang untuk menjaga kesegaran sambil membuat setiap pesanan terasa premium.</p>
+          </div>
+          <div class="packaging-list">
+            <div>🎁 Kemasan Kado</div>
+            <div>🛍 Cup Kertas Ramah Lingkungan</div>
+            <div>🎀 Box Kado Premium</div>
+            <div>📦 Kemasan Aman untuk Pengiriman</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section faq-section" id="faq">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">FAQ</p>
+            <h2>Pertanyaan umum sebelum Anda memesan.</h2>
+          </div>
+          <div class="faq-list">
+            <details>
+              <summary>Apakah muffin dipanggang segar setiap hari?</summary>
+              <p>Ya, setiap batch dipanggang segar setiap hari untuk menjaga kelembutan, aroma, dan rasa yang kaya.</p>
+            </details>
+            <details>
+              <summary>Apakah muffin mengandung pengawet?</summary>
+              <p>Tidak, muffin kami dibuat dari bahan yang dipilih dengan hati-hati dan tanpa pengawet buatan.</p>
+            </details>
+            <details>
+              <summary>Berapa lama muffin bisa disimpan?</summary>
+              <p>Untuk kualitas terbaik, nikmati dalam 1–2 hari pada suhu ruang atau simpan di lemari pendingin untuk kesegaran yang lebih lama.</p>
+            </details>
+            <details>
+              <summary>Bisa pesan dalam jumlah banyak?</summary>
+              <p>Tentu, kami menerima pesanan dalam jumlah besar untuk acara, kumpul keluarga, dan kebutuhan hadiah.</p>
+            </details>
+            <details>
+              <summary>Apakah menerima pesanan khusus?</summary>
+              <p>Ya, pesanan khusus tersedia untuk permintaan dan paket tertentu.</p>
+            </details>
+            <details>
+              <summary>Bagaimana cara memesan?</summary>
+              <p>Anda bisa memesan melalui WhatsApp, formulir kontak, atau datang langsung ke bakery kami di Palu.</p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section class="section contact-section" id="contact">
+        <div class="container grid-2 contact-wrap">
+          <div>
+            <p class="eyebrow">Kontak</p>
+            <h2>Pesan muffin favorit Anda atau kunjungi bakery hangat kami.</h2>
+            <p><strong>MUFFIN PISANG COKLAT PALU</strong></p>
+            <p>Telepon / WhatsApp: <a href="https://wa.me/6282259107121">+62 822-5910-7121</a></p>
+            <p>Alamat: Jl. Krajalemba Perumahan Jingga Land Mpanau</p>
+            <div class="contact-actions">
+              <a class="button primary" href="https://wa.me/6282259107121?text=Halo%20saya%20ingin%20memesan%20muffin%20pisang%20coklat." target="_blank" rel="noreferrer">Pesan via WhatsApp</a>
+              <a class="button secondary" href="https://maps.app.goo.gl/YC6SEhizBzC82yHW7" target="_blank" rel="noreferrer">Lihat Lokasi</a>
+            </div>
+          </div>
+          <form class="contact-form">
+            <h3>Hubungi kami</h3>
+            <label>
+              Nama
+              <input type="text" name="name" placeholder="Nama Anda" />
+            </label>
+            <label>
+              Email
+              <input type="email" name="email" placeholder="Email Anda" />
+            </label>
+            <label>
+              Pesan
+              <textarea name="message" rows="4" placeholder="Ceritakan apa yang ingin Anda pesan"></textarea>
+            </label>
+            <button class="button primary" type="submit">Kirim Pesan</button>
+          </form>
+        </div>
+      </section>
+
+      <section class="section map-section">
+        <div class="container">
+          <iframe title="Bakery location map" loading="lazy" src="https://www.google.com/maps?q=Jl.%20Krajalemba%20Perumahan%20Jingga%20Land%20Mpanau&z=15&output=embed"></iframe>
+        </div>
+      </section>
+
+      <section class="section newsletter">
+        <div class="container newsletter-box">
+          <div>
+            <p class="eyebrow">Tetap update</p>
+            <h2>Dapatkan update bakery terbaru dan penawaran spesial.</h2>
+          </div>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Alamat email Anda" />
+            <button class="button primary" type="submit">Langganan</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div>
+          <a class="brand footer-brand" href="#home">
+            <span class="brand-mark">M</span>
+            <span>
+              <strong>MUFFIN PISANG COKLAT</strong>
+              <small>Palu</small>
+            </span>
+          </a>
+          <p>Muffin pisang coklat hangat, premium, dan buatan tangan yang dipanggang dengan penuh kasih.</p>
+        </div>
+        <div>
+          <h3>Tentang</h3>
+          <a href="#about">Cerita kami</a>
+          <a href="#products">Produk</a>
+          <a href="#gallery">Galeri</a>
+        </div>
+        <div>
+          <h3>Info Pesanan</h3>
+          <a href="#contact">Pesan via WhatsApp</a>
+          <a href="#contact">Kunjungi kami</a>
+          <a href="#faq">FAQ</a>
+        </div>
+        <div>
+          <h3>Ikuti</h3>
+          <a href="https://instagram.com" target="_blank" rel="noreferrer">Instagram</a>
+          <a href="https://facebook.com" target="_blank" rel="noreferrer">Facebook</a>
+          <a href="https://tiktok.com" target="_blank" rel="noreferrer">TikTok</a>
+        </div>
+      </div>
+      <div class="container footer-bottom">
+        <p>© 2026 MUFFIN PISANG COKLAT PALU. Semua hak dilindungi.</p>
+      </div>
+    </footer>
+
+    <a class="floating-whatsapp" href="https://wa.me/6282259107121" target="_blank" rel="noreferrer" aria-label="Order via WhatsApp">💬</a>
+    <button class="back-to-top" aria-label="Back to top">↑</button>
+
+    <script src="script.js?v=20260714"></script>
+  </body>
+</html>
