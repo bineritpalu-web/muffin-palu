@@ -16,7 +16,6 @@ const quantityInput = document.getElementById('quantity');
 const qtyButtons = document.querySelectorAll('.qty-btn');
 const whatsappOrderButton = document.getElementById('whatsappOrderButton');
 const cartWhatsappButton = document.getElementById('cartWhatsappButton');
-const orderStockReady = document.getElementById('orderStockReady');
 const stockReadyValue = document.getElementById('stockReadyValue');
 const stockTargetValue = document.getElementById('stockTargetValue');
 const stockProgressBar = document.getElementById('stockProgressBar');
@@ -232,12 +231,63 @@ function renderReceipts() {
         <strong>${item.customer || 'Pelanggan'}</strong>
         <small>${item.note || 'Tanpa catatan'} • ${item.time}</small>
       </div>
-      <div>
-        <strong>${formatCurrency(item.amount)}</strong>
-        <small>${item.id}</small>
+      <div class="dashboard-item-actions">
+        <div class="dashboard-item-meta">
+          <strong>${formatCurrency(item.amount)}</strong>
+          <small>${item.id}</small>
+        </div>
+        <button class="button secondary" type="button" data-print-receipt="${item.id}">Cetak struk</button>
       </div>
     </div>
   `).join('');
+}
+
+function printReceipt(order) {
+  if (!order) return;
+
+  const printWindow = window.open('', '_blank', 'width=800,height=900');
+  if (!printWindow) {
+    showDashboardMessage('Popup diblokir. Izinkan popup untuk mencetak struk.');
+    return;
+  }
+
+  const html = `<!DOCTYPE html>
+  <html lang="id">
+    <head>
+      <meta charset="UTF-8" />
+      <title>Struk ${order.id}</title>
+      <style>
+        body { font-family: Arial, sans-serif; margin: 24px; color: #2d1b14; }
+        .receipt { max-width: 420px; margin: 0 auto; border: 1px solid #ddd; padding: 20px; border-radius: 12px; }
+        .title { text-align: center; font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+        .subtitle { text-align: center; color: #6f5649; margin-bottom: 16px; }
+        .row { display: flex; justify-content: space-between; margin: 8px 0; }
+        .divider { border-top: 1px dashed #999; margin: 12px 0; }
+        .total { font-size: 18px; font-weight: 700; }
+      </style>
+    </head>
+    <body>
+      <div class="receipt">
+        <div class="title">MUFFIN PISANG COKLAT</div>
+        <div class="subtitle">Palu • Struk Order</div>
+        <div class="row"><span>ID Order</span><strong>${order.id}</strong></div>
+        <div class="row"><span>Nama</span><strong>${order.customer || 'Pelanggan'}</strong></div>
+        <div class="row"><span>Catatan</span><strong>${order.note || 'Tanpa catatan'}</strong></div>
+        <div class="row"><span>Waktu</span><strong>${order.time || '-'}</strong></div>
+        <div class="divider"></div>
+        <div class="row"><span>Jumlah</span><strong>${formatCurrency(order.amount || 0)}</strong></div>
+        <div class="divider"></div>
+        <div class="row total"><span>Total</span><strong>${formatCurrency(order.amount || 0)}</strong></div>
+      </div>
+    </body>
+  </html>`;
+
+  printWindow.document.write(html);
+  printWindow.document.close();
+  printWindow.focus();
+  setTimeout(() => {
+    printWindow.print();
+  }, 300);
 }
 
 function renderFinance() {
@@ -266,6 +316,22 @@ function renderFinance() {
       </div>
     </div>
   `).join('');
+}
+
+if (receiptList) {
+  receiptList.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-print-receipt]');
+    if (!button) {
+      return;
+    }
+
+    const orderId = button.getAttribute('data-print-receipt');
+    const state = getDashboardState();
+    const order = state.sales.find((item) => item.id === orderId);
+    if (order) {
+      printReceipt(order);
+    }
+  });
 }
 
 function showDashboardMessage(text) {
@@ -465,41 +531,21 @@ async function recordOrder(quantity, note = 'Pesanan online') {
 }
 
 function updateOrderStockDisplay() {
-  const state = getDashboardState();
-  const availableStock = state.stockReady;
-
-  if (orderStockReady) {
-    orderStockReady.textContent = `${availableStock} pcs`;
-  }
-
   const buttons = [...addToCartButtons, whatsappOrderButton, cartWhatsappButton].filter(Boolean);
-  const disabledClass = 'disabled';
-  const isOutOfStock = availableStock <= 0;
 
   buttons.forEach((button) => {
     if (!button) return;
     if (button instanceof HTMLAnchorElement) {
-      if (isOutOfStock) {
-        button.classList.add(disabledClass);
-        button.removeAttribute('href');
-        button.setAttribute('aria-disabled', 'true');
-      } else {
-        button.classList.remove(disabledClass);
-        button.setAttribute('href', button.id === 'whatsappOrderButton'
-          ? `https://wa.me/6282259107121?text=${encodeURIComponent(`Halo saya ingin memesan ${getQuantity()} Muffin Pisang Coklat (Total Rp ${formatNumber(getProductTotal())}). Mohon infokan ketersediaan dan estimasi pengiriman.`)}`
-          : `https://wa.me/6282259107121?text=${encodeURIComponent(cart.length
-            ? `Halo saya ingin memesan:\n${cart.map(item => `${item.quantity}x ${item.name} = Rp ${formatNumber(item.price * item.quantity)}`).join('\n')}\nTotal pesanan: Rp ${formatNumber(cart.reduce((sum, item) => sum + item.price * item.quantity, 0))}.`
-            : 'Halo saya ingin memesan Muffin Pisang Coklat.')}`);
-        button.removeAttribute('aria-disabled');
-      }
+      button.classList.remove('disabled');
+      button.setAttribute('href', button.id === 'whatsappOrderButton'
+        ? `https://wa.me/6282259107121?text=${encodeURIComponent(`Halo saya ingin memesan ${getQuantity()} Muffin Pisang Coklat (Total Rp ${formatNumber(getProductTotal())}). Mohon infokan ketersediaan dan estimasi pengiriman.`)}`
+        : `https://wa.me/6282259107121?text=${encodeURIComponent(cart.length
+          ? `Halo saya ingin memesan:\n${cart.map(item => `${item.quantity}x ${item.name} = Rp ${formatNumber(item.price * item.quantity)}`).join('\n')}\nTotal pesanan: Rp ${formatNumber(cart.reduce((sum, item) => sum + item.price * item.quantity, 0))}.`
+          : 'Halo saya ingin memesan Muffin Pisang Coklat.')}`);
+      button.removeAttribute('aria-disabled');
     } else if (button instanceof HTMLButtonElement) {
-      if (isOutOfStock) {
-        button.disabled = true;
-        button.classList.add(disabledClass);
-      } else {
-        button.disabled = false;
-        button.classList.remove(disabledClass);
-      }
+      button.disabled = false;
+      button.classList.remove('disabled');
     }
   });
 }
@@ -626,11 +672,6 @@ document.querySelector('.carousel-control.next')?.addEventListener('click', () =
 
 addToCartButtons.forEach((button) => {
   button.addEventListener('click', () => {
-    const state = getDashboardState();
-    if (state.stockReady <= 0) {
-      return;
-    }
-
     const name = button.dataset.name;
     const price = Number(button.dataset.price);
     const quantity = getQuantity();

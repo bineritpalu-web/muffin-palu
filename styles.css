@@ -974,6 +974,23 @@ textarea {
   color: var(--muted);
 }
 
+.dashboard-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.dashboard-item-meta {
+  text-align: right;
+}
+
+.dashboard-item .button {
+  padding: 0.65rem 0.85rem;
+  font-size: 0.84rem;
+  box-shadow: none;
+  white-space: nowrap;
+}
+
 .dashboard-message {
   min-height: 1.2rem;
   margin-top: 0.9rem;

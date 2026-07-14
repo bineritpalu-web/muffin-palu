@@ -1,7 +1,15 @@
 {
-  "stockReady": 0,
+  "stockReady": 10,
   "stockTarget": 150,
-  "sales": [],
+  "sales": [
+    {
+      "id": "STRK-001",
+      "customer": "indra",
+      "amount": 10000,
+      "note": "2 box",
+      "time": "14/7/2026, 11.39.39"
+    }
+  ],
   "expenses": [
     {
       "id": "EXP-001",
