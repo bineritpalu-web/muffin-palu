@@ -51,6 +51,7 @@ const resetSalesButton = document.getElementById('resetSalesButton');
 
 let cart = [];
 let dashboardState = null;
+let isSyncingDashboard = false;
 
 const STORAGE_KEY = 'muffin-dashboard-state';
 const AUTH_STORAGE_KEY = 'muffin-admin-auth';
@@ -58,6 +59,20 @@ const ADMIN_CREDENTIALS = [
   { username: 'admin', password: 'muffinpalu2026' },
   { username: 'admin', password: 'admin' }
 ];
+
+function getDefaultDashboardState() {
+  return {
+    stockReady: 120,
+    stockTarget: 150,
+    sales: [
+      { id: 'STRK-001', customer: 'Bapak Rudi', amount: 280000, note: '10 box', time: '2026-07-14 09:30' },
+      { id: 'STRK-002', customer: 'Keluarga Ana', amount: 160000, note: '5 box', time: '2026-07-13 16:10' }
+    ],
+    expenses: [
+      { id: 'EXP-001', amount: 95000, note: 'Beli coklat premium', time: '2026-07-14 07:45' }
+    ],
+  };
+}
 
 function getDashboardState() {
   if (dashboardState) {
@@ -71,26 +86,51 @@ function getDashboardState() {
       return dashboardState;
     }
   } catch (error) {
-    console.warn('Unable to load dashboard state', error);
+    console.warn('Unable to load dashboard state from localStorage', error);
   }
 
-  dashboardState = {
-    stockReady: 120,
-    stockTarget: 150,
-    sales: [
-      { id: 'STRK-001', customer: 'Bapak Rudi', amount: 280000, note: '10 box', time: '2026-07-14 09:30' },
-      { id: 'STRK-002', customer: 'Keluarga Ana', amount: 160000, note: '5 box', time: '2026-07-13 16:10' }
-    ],
-    expenses: [
-      { id: 'EXP-001', amount: 95000, note: 'Beli coklat premium', time: '2026-07-14 07:45' }
-    ],
-  };
-
+  dashboardState = getDefaultDashboardState();
   return dashboardState;
 }
 
-function saveDashboardState() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(dashboardState));
+async function fetchDashboardState() {
+  if (isSyncingDashboard) {
+    return getDashboardState();
+  }
+
+  isSyncingDashboard = true;
+
+  try {
+    const response = await fetch('/api/dashboard-state');
+    if (!response.ok) {
+      throw new Error('Unable to load server state');
+    }
+
+    const data = await response.json();
+    dashboardState = data;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(dashboardState));
+    return dashboardState;
+  } catch (error) {
+    console.warn('Falling back to browser storage for dashboard state', error);
+    return getDashboardState();
+  } finally {
+    isSyncingDashboard = false;
+  }
+}
+
+async function saveDashboardState() {
+  const state = getDashboardState();
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+
+  try {
+    await fetch('/api/dashboard-state', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(state)
+    });
+  } catch (error) {
+    console.warn('Unable to sync dashboard state to server', error);
+  }
 }
 
 function isAuthenticated() {
@@ -236,7 +276,7 @@ function showDashboardMessage(text) {
   }, 2200);
 }
 
-stockForm?.addEventListener('submit', (event) => {
+stockForm?.addEventListener('submit', async (event) => {
   event.preventDefault();
   const state = getDashboardState();
   const delta = Number(stockDeltaInput.value);
@@ -250,12 +290,13 @@ stockForm?.addEventListener('submit', (event) => {
     state.stockTarget = target;
   }
 
-  saveDashboardState();
+  await saveDashboardState();
   updateDashboardUI();
+  updateOrderStockDisplay();
   showDashboardMessage('Stok berhasil diperbarui');
 });
 
-saleForm?.addEventListener('submit', (event) => {
+saleForm?.addEventListener('submit', async (event) => {
   event.preventDefault();
   const state = getDashboardState();
   const amount = Number(saleAmountInput.value);
@@ -275,13 +316,14 @@ saleForm?.addEventListener('submit', (event) => {
     time: new Date().toLocaleString('id-ID')
   });
 
-  saveDashboardState();
+  await saveDashboardState();
   updateDashboardUI();
+  updateOrderStockDisplay();
   saleForm.reset();
   showDashboardMessage('Penjualan berhasil dicatat');
 });
 
-expenseForm?.addEventListener('submit', (event) => {
+expenseForm?.addEventListener('submit', async (event) => {
   event.preventDefault();
   const state = getDashboardState();
   const amount = Number(expenseAmountInput.value);
@@ -299,7 +341,7 @@ expenseForm?.addEventListener('submit', (event) => {
     time: new Date().toLocaleString('id-ID')
   });
 
-  saveDashboardState();
+  await saveDashboardState();
   updateDashboardUI();
   expenseForm.reset();
   showDashboardMessage('Pengeluaran berhasil dicatat');
@@ -345,19 +387,20 @@ adminLogoutButton?.addEventListener('click', () => {
   showLoginMessage('Anda telah logout.');
 });
 
-resetStockButton?.addEventListener('click', () => {
+resetStockButton?.addEventListener('click', async () => {
   const state = getDashboardState();
   state.stockReady = 0;
   state.stockTarget = 150;
-  saveDashboardState();
+  await saveDashboardState();
   updateDashboardUI();
+  updateOrderStockDisplay();
   showDashboardMessage('Stok berhasil direset');
 });
 
-resetSalesButton?.addEventListener('click', () => {
+resetSalesButton?.addEventListener('click', async () => {
   const state = getDashboardState();
   state.sales = [];
-  saveDashboardState();
+  await saveDashboardState();
   updateDashboardUI();
   showDashboardMessage('Riwayat penjualan berhasil direset');
 });
@@ -397,7 +440,7 @@ function updateWhatsAppLinks() {
   }
 }
 
-function recordOrder(quantity, note = 'Pesanan online') {
+async function recordOrder(quantity, note = 'Pesanan online') {
   const state = getDashboardState();
   const actualQuantity = Math.min(Math.max(0, quantity), state.stockReady);
   if (actualQuantity <= 0) {
@@ -413,7 +456,7 @@ function recordOrder(quantity, note = 'Pesanan online') {
   });
 
   state.stockReady = Math.max(0, state.stockReady - actualQuantity);
-  saveDashboardState();
+  await saveDashboardState();
   updateOrderStockDisplay();
   if (isAuthenticated()) {
     updateDashboardUI();
@@ -603,16 +646,18 @@ addToCartButtons.forEach((button) => {
   });
 });
 
-whatsappOrderButton?.addEventListener('click', (event) => {
+whatsappOrderButton?.addEventListener('click', async (event) => {
   const quantity = getQuantity();
-  if (!recordOrder(quantity, 'Pesan via WhatsApp')) {
+  const ordered = await recordOrder(quantity, 'Pesan via WhatsApp');
+  if (!ordered) {
     event.preventDefault();
   }
 });
 
-cartWhatsappButton?.addEventListener('click', (event) => {
+cartWhatsappButton?.addEventListener('click', async (event) => {
   const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
-  if (totalQuantity <= 0 || !recordOrder(totalQuantity, 'Pesan keranjang via WhatsApp')) {
+  const ordered = await recordOrder(totalQuantity, 'Pesan keranjang via WhatsApp');
+  if (totalQuantity <= 0 || !ordered) {
     event.preventDefault();
     return;
   }
@@ -664,3 +709,19 @@ if (loginShell && adminShell) {
 if (stockReadyValue && stockTargetValue && stockProgressBar && isAuthenticated()) {
   updateDashboardUI();
 }
+
+fetchDashboardState().then(() => {
+  updateOrderStockDisplay();
+  if (isAuthenticated()) {
+    updateDashboardUI();
+  }
+});
+
+window.setInterval(() => {
+  fetchDashboardState().then(() => {
+    updateOrderStockDisplay();
+    if (isAuthenticated()) {
+      updateDashboardUI();
+    }
+  });
+}, 5000);

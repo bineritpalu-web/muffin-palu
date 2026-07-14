@@ -1,0 +1,13 @@
+{
+  "stockReady": 0,
+  "stockTarget": 150,
+  "sales": [],
+  "expenses": [
+    {
+      "id": "EXP-001",
+      "amount": 95000,
+      "note": "Beli coklat premium",
+      "time": "2026-07-14 07:45"
+    }
+  ]
+}
