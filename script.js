@@ -575,13 +575,16 @@ function updateCartUI() {
 
   cartItems.innerHTML = cart
     .map(
-      (item) => `
+      (item, index) => `
         <div class="cart-item">
-          <div>
+          <div class="cart-item-info">
             <strong>${item.name}</strong>
             <div>Qty: ${item.quantity}</div>
           </div>
-          <div>Rp ${item.price * item.quantity}</div>
+          <div class="cart-item-actions">
+            <div>Rp ${item.price * item.quantity}</div>
+            <button type="button" class="cart-remove-btn" data-index="${index}" aria-label="Hapus ${item.name} dari keranjang">✕</button>
+          </div>
         </div>
       `
     )
@@ -646,6 +649,17 @@ cartToggle?.addEventListener('click', openCart);
 closeCart?.addEventListener('click', closeCartPanel);
 cartPanel?.addEventListener('click', (event) => {
   if (event.target === cartPanel) closeCartPanel();
+});
+cartItems?.addEventListener('click', (event) => {
+  const removeButton = event.target.closest('.cart-remove-btn');
+  if (!removeButton) return;
+
+  const index = Number(removeButton.dataset.index);
+  if (Number.isInteger(index) && index >= 0 && index < cart.length) {
+    cart.splice(index, 1);
+    updateCartUI();
+    updateWhatsAppLinks();
+  }
 });
 
 themeToggle?.addEventListener('click', toggleTheme);

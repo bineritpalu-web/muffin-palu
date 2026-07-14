@@ -763,6 +763,34 @@ textarea {
   border-bottom: 1px solid var(--border);
 }
 
+.cart-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.cart-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.cart-remove-btn {
+  border: 0;
+  background: rgba(211, 47, 47, 0.12);
+  color: #c62828;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.cart-remove-btn:hover {
+  background: rgba(211, 47, 47, 0.2);
+}
+
 .full-width {
   width: 100%;
   margin-top: 1rem;
