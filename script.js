@@ -53,6 +53,7 @@ let cart = [];
 let dashboardState = null;
 let isSyncingDashboard = false;
 
+const FREE_SHIPPING_THRESHOLD = 8;
 const STORAGE_KEY = 'muffin-dashboard-state';
 const AUTH_STORAGE_KEY = 'muffin-admin-auth';
 const ADMIN_CREDENTIALS = [
@@ -496,18 +497,54 @@ function getProductTotal() {
   return getQuantity() * 5000;
 }
 
+function getCartTotalQuantity() {
+  return cart.reduce((sum, item) => sum + item.quantity, 0);
+}
+
+function getCartTotalAmount() {
+  return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+}
+
+function isFreeShippingEligible(quantity) {
+  return quantity >= FREE_SHIPPING_THRESHOLD;
+}
+
+function getShippingMessage(quantity) {
+  return isFreeShippingEligible(quantity)
+    ? 'Sudah dapat gratis ongkir se-Kota Palu.'
+    : `Tidak mau tambah ${Math.max(0, FREE_SHIPPING_THRESHOLD - quantity)} pcs lagi untuk dapat gratis ongkir?`;
+}
+
+function updateCartSummary() {
+  const totalQty = getCartTotalQuantity();
+  const totalAmount = getCartTotalAmount();
+  const shippingText = getShippingMessage(totalQty);
+
+  const cartTotalQty = document.getElementById('cartTotalQty');
+  const cartTotalAmount = document.getElementById('cartTotalAmount');
+  const cartShippingAmount = document.getElementById('cartShippingAmount');
+
+  if (cartTotalQty) cartTotalQty.textContent = totalQty;
+  if (cartTotalAmount) cartTotalAmount.textContent = formatCurrency(totalAmount);
+  if (cartShippingAmount) cartShippingAmount.textContent = isFreeShippingEligible(totalQty) ? 'Gratis' : shippingText;
+}
+
 function updateWhatsAppLinks() {
   const quantity = getQuantity();
   const total = getProductTotal();
-  const message = `Halo saya ingin memesan ${quantity} Muffin Pisang Coklat (Total Rp ${formatNumber(total)}). Mohon infokan ketersediaan dan estimasi pengiriman.`;
+  const shippingMessage = getShippingMessage(quantity);
+  const message = `Halo saya ingin memesan ${quantity} Muffin Pisang Coklat (Total Rp ${formatNumber(total)}). ${shippingMessage} Mohon infokan ketersediaan dan estimasi pengiriman.`;
   const encoded = encodeURIComponent(message);
 
   if (whatsappOrderButton) {
     whatsappOrderButton.href = `https://wa.me/6282259107121?text=${encoded}`;
   }
 
-  const cartMessage = cart.length
-    ? `Halo saya ingin memesan:\n${cart.map(item => `${item.quantity}x ${item.name} = Rp ${formatNumber(item.price * item.quantity)}`).join('\n')}\nTotal pesanan: Rp ${formatNumber(cart.reduce((sum, item) => sum + item.price * item.quantity, 0))}.`
+  const cartTotalQty = getCartTotalQuantity();
+  const cartTotalAmount = getCartTotalAmount();
+  const cartShipping = getShippingMessage(cartTotalQty);
+  const cartMessage = cartTotalQty
+    ? `Halo saya ingin memesan:\n${cart.map(item => `${item.quantity}x ${item.name} = Rp ${formatNumber(item.price * item.quantity)}`).join('\n')}\nTotal pesanan: Rp ${formatNumber(cartTotalAmount)}. ${cartShipping}`
     : 'Halo saya ingin memesan Muffin Pisang Coklat.';
 
   if (cartWhatsappButton) {
@@ -547,7 +584,7 @@ function updateOrderStockDisplay() {
     if (button instanceof HTMLAnchorElement) {
       button.classList.remove('disabled');
       button.setAttribute('href', button.id === 'whatsappOrderButton'
-        ? `https://wa.me/6282259107121?text=${encodeURIComponent(`Halo saya ingin memesan ${getQuantity()} Muffin Pisang Coklat (Total Rp ${formatNumber(getProductTotal())}). Mohon infokan ketersediaan dan estimasi pengiriman.`)}`
+        ? `https://wa.me/6282259107121?text=${encodeURIComponent(`Halo saya ingin memesan ${getQuantity()} Muffin Pisang Coklat (Total Rp ${formatNumber(getProductTotal())}). Mohon infokan ketersediaan dan estimasi pengiriman ya...`)}`
         : `https://wa.me/6282259107121?text=${encodeURIComponent(cart.length
           ? `Halo saya ingin memesan:\n${cart.map(item => `${item.quantity}x ${item.name} = Rp ${formatNumber(item.price * item.quantity)}`).join('\n')}\nTotal pesanan: Rp ${formatNumber(cart.reduce((sum, item) => sum + item.price * item.quantity, 0))}.`
           : 'Halo saya ingin memesan Muffin Pisang Coklat.')}`);
@@ -589,6 +626,8 @@ function updateCartUI() {
       `
     )
     .join('');
+
+  updateCartSummary();
 }
 
 function openSearch() {
@@ -710,21 +749,33 @@ addToCartButtons.forEach((button) => {
   });
 });
 
-whatsappOrderButton?.addEventListener('click', async (event) => {
+whatsappOrderButton?.addEventListener('click', (event) => {
   const quantity = getQuantity();
-  const ordered = await recordOrder(quantity, 'Pesan via WhatsApp');
-  if (!ordered) {
-    event.preventDefault();
-  }
-});
-
-cartWhatsappButton?.addEventListener('click', async (event) => {
-  const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const ordered = await recordOrder(totalQuantity, 'Pesan keranjang via WhatsApp');
-  if (totalQuantity <= 0 || !ordered) {
+  if (quantity <= 0) {
     event.preventDefault();
     return;
   }
+
+  event.preventDefault();
+  const message = `Halo saya ingin memesan ${quantity} Muffin Pisang Coklat (Total Rp ${formatNumber(getProductTotal())}). ${getShippingMessage(quantity)} Mohon infokan ketersediaan dan estimasi pengiriman.`;
+  const url = `https://wa.me/6282259107121?text=${encodeURIComponent(message)}`;
+  window.open(url, '_blank');
+  recordOrder(quantity, 'Pesan via WhatsApp');
+});
+
+cartWhatsappButton?.addEventListener('click', (event) => {
+  const totalQuantity = getCartTotalQuantity();
+  if (totalQuantity <= 0) {
+    event.preventDefault();
+    return;
+  }
+
+  event.preventDefault();
+  const shippingMessage = getShippingMessage(totalQuantity);
+  const cartMessage = `Halo saya ingin memesan:\n${cart.map(item => `${item.quantity}x ${item.name} = Rp ${formatNumber(item.price * item.quantity)}`).join('\n')}\nTotal pesanan: Rp ${formatNumber(getCartTotalAmount())}. ${shippingMessage}`;
+  const url = `https://wa.me/6282259107121?text=${encodeURIComponent(cartMessage)}`;
+  window.open(url, '_blank');
+  recordOrder(totalQuantity, `Pesan keranjang via WhatsApp. ${shippingMessage}`);
   cart = [];
   updateCartUI();
   updateWhatsAppLinks();
