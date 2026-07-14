@@ -1253,3 +1253,95 @@ textarea {
     align-items: flex-start;
   }
 }
+
+@media (max-width: 640px) {
+  .container {
+    width: min(100% - 1rem, 1120px);
+  }
+
+  .nav-bar {
+    min-height: 68px;
+    gap: 0.75rem;
+  }
+
+  .brand {
+    font-size: 0.84rem;
+  }
+
+  .brand-mark {
+    width: 38px;
+    height: 38px;
+    font-size: 1rem;
+  }
+
+  .section-heading {
+    margin-bottom: 1.4rem;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .wide-card {
+    grid-column: span 1;
+  }
+
+  .dashboard-card {
+    padding: 1rem;
+    border-radius: 1rem;
+  }
+
+  .dashboard-card-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.65rem;
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dashboard-item-actions {
+    width: 100%;
+    justify-content: space-between;
+    gap: 0.6rem;
+  }
+
+  .dashboard-item-meta {
+    text-align: left;
+  }
+
+  .dashboard-actions,
+  .dashboard-actions-inline,
+  .finance-reset-wrap {
+    justify-content: stretch;
+  }
+
+  .dashboard-actions .button,
+  .dashboard-actions-inline .button,
+  .finance-reset-wrap .button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .auth-card {
+    padding: 1.2rem;
+    border-radius: 1.25rem;
+  }
+
+  .auth-form input,
+  .dashboard-form input {
+    font-size: 1rem;
+    padding: 0.8rem 0.9rem;
+  }
+
+  .dashboard-caption,
+  .metric-label {
+    font-size: 0.86rem;
+  }
+}
