@@ -984,13 +984,6 @@ textarea {
   text-align: right;
 }
 
-.dashboard-item .button {
-  padding: 0.65rem 0.85rem;
-  font-size: 0.84rem;
-  box-shadow: none;
-  white-space: nowrap;
-}
-
 .dashboard-message {
   min-height: 1.2rem;
   margin-top: 0.9rem;
@@ -1086,8 +1079,58 @@ textarea {
 }
 
 .dashboard-actions-inline .button {
-  padding: 0.7rem 0.9rem;
+  padding: 0.72rem 1rem;
   font-size: 0.9rem;
+  border: 1px solid rgba(78, 52, 46, 0.14);
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(249, 199, 79, 0.18), rgba(255, 255, 255, 0.9));
+  color: var(--primary);
+  box-shadow: 0 8px 18px rgba(78, 52, 46, 0.08);
+}
+
+.dashboard-actions-inline .button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(78, 52, 46, 0.12);
+}
+
+.button.danger {
+  background: linear-gradient(135deg, #d84343, #b71c1c);
+  color: #fff;
+  border: 1px solid rgba(183, 28, 28, 0.2);
+}
+
+.button.danger:hover {
+  box-shadow: 0 10px 20px rgba(183, 28, 28, 0.2);
+}
+
+.finance-reset-wrap {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0.9rem 0 1.1rem;
+}
+
+.finance-reset-wrap .button {
+  padding: 0.72rem 1rem;
+  font-size: 0.9rem;
+  border-radius: 999px;
+  border: 1px solid rgba(78, 52, 46, 0.14);
+  background: linear-gradient(135deg, rgba(249, 199, 79, 0.18), rgba(255, 255, 255, 0.9));
+  color: var(--primary);
+  box-shadow: 0 8px 18px rgba(78, 52, 46, 0.08);
+}
+
+.finance-reset-wrap .button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(78, 52, 46, 0.12);
+}
+
+.dashboard-item .button {
+  padding: 0.65rem 0.85rem;
+  font-size: 0.84rem;
+  box-shadow: none;
+  white-space: nowrap;
+  border: 1px solid rgba(78, 52, 46, 0.12);
+  border-radius: 999px;
 }
 
 .auth-link {

@@ -1,21 +1,6 @@
 {
-  "stockReady": 10,
+  "stockReady": 0,
   "stockTarget": 150,
-  "sales": [
-    {
-      "id": "STRK-001",
-      "customer": "indra",
-      "amount": 10000,
-      "note": "2 box",
-      "time": "14/7/2026, 11.39.39"
-    }
-  ],
-  "expenses": [
-    {
-      "id": "EXP-001",
-      "amount": 95000,
-      "note": "Beli coklat premium",
-      "time": "2026-07-14 07:45"
-    }
-  ]
+  "sales": [],
+  "expenses": []
 }

@@ -47,6 +47,7 @@ const loginMessage = document.getElementById('loginMessage');
 const adminLogoutButton = document.getElementById('adminLogoutButton');
 const resetStockButton = document.getElementById('resetStockButton');
 const resetSalesButton = document.getElementById('resetSalesButton');
+const resetFinanceButton = document.getElementById('resetFinanceButton');
 
 let cart = [];
 let dashboardState = null;
@@ -469,6 +470,14 @@ resetSalesButton?.addEventListener('click', async () => {
   await saveDashboardState();
   updateDashboardUI();
   showDashboardMessage('Riwayat penjualan berhasil direset');
+});
+
+resetFinanceButton?.addEventListener('click', async () => {
+  const state = getDashboardState();
+  state.expenses = [];
+  await saveDashboardState();
+  updateDashboardUI();
+  showDashboardMessage('Laporan keuangan berhasil direset');
 });
 
 let currentTestimonial = 0;
