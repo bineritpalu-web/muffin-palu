@@ -643,6 +643,16 @@ if (backToTop) {
   });
 }
 
+window.addEventListener('storage', (event) => {
+  if (event.key === STORAGE_KEY) {
+    dashboardState = null;
+    updateOrderStockDisplay();
+    if (isAuthenticated()) {
+      updateDashboardUI();
+    }
+  }
+});
+
 showTestimonial(0);
 startCarousel();
 updateCartUI();
